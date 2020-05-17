@@ -1,0 +1,18 @@
+{
+    "logs": {
+        "level": "info"
+    },
+    "platform": {
+        "discord": {
+            "token": "xxxxxx"
+        },
+        "slack": {
+            "signingKey": "xxxxxx",
+            "token": "xxxxxx"
+        },
+        "telegram": {
+            "token": "xxxxxx"
+        }
+    },
+    "wallets": {}
+}

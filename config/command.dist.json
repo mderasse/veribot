@@ -1,0 +1,24 @@
+[
+    {
+        "keyword": "hi",
+        "events": [
+            "direct_mention",
+            "mention",
+            "direct_message"
+        ],
+        "help_message": "",
+        "message": "Hi Yourself!",
+        "replyType": "public"
+    },
+    {
+        "keyword": "i love you",
+        "events": [
+            "direct_mention",
+            "mention",
+            "direct_message"
+        ],
+        "help_message": "",
+        "message": "Let's keep our relation private.",
+        "replyType": "private"
+    }
+]

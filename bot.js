@@ -10,13 +10,11 @@ const Botkit = require('botkit');
 const BotkitDiscord = require('botkit-discord');
 const BotkitTelegram = require('botkit-telegram');
 
-
-// Load process.env values from .env file
-require('dotenv').config();
+var appConfig = require('./config/app');
 
 // Init logs
 const log = new (Winston.Logger)({
-    level: process.env.LOG_LEVEL || 'info',
+    level: appConfig.logs.level || 'info',
     levels: Winston.config.syslog.levels,
     transports: [
         new Winston.transports.Console({
@@ -29,14 +27,14 @@ const log = new (Winston.Logger)({
 var debug = log.level == 'debug' || log.level == 'silly';
 
 function initSlack(log) {
-    if (!process.env.SLACK_BOT_TOKEN) {
+    if (!appConfig.platform.slack.token) {
         log.warning('Missing SLACK_BOT_TOKEN, skipping Slack ')
         return;
     }
 
     log.info('Initializing Slack Bot')
     var controller = Botkit.slackbot({
-        clientSigningSecret: process.env.SLACK_SIGNING_SECRET,
+        clientSigningSecret: appConfig.platform.slack.signingKey,
         debug: debug,
         logger: log,
         retry: 10,
@@ -44,7 +42,7 @@ function initSlack(log) {
 
     log.info('Initializing Slack Bot')
     var bot = controller.spawn({
-        token: process.env.SLACK_BOT_TOKEN,
+        token: appConfig.platform.slack.token,
     }).startRTM();
 
     var normalizedPath = require("path").join(__dirname, "feature");
@@ -55,7 +53,7 @@ function initSlack(log) {
 
 
 function initDiscord(log) {
-    if (!process.env.DISCORD_BOT_TOKEN) {
+    if (!appConfig.platform.discord.token) {
         log.warning('Missing DISCORD_BOT_TOKEN, skipping Discord ')
         return;
     }
@@ -63,7 +61,7 @@ function initDiscord(log) {
     log.info('Initializing Discord Bot')
 
     const controller = BotkitDiscord({
-        token: process.env.DISCORD_BOT_TOKEN,
+        token: appConfig.platform.discord.token,
         debug: debug,
         logger: log,
         retry: 10,
@@ -76,14 +74,14 @@ function initDiscord(log) {
 }
 
 function initTelegram(log) {
-    if (!process.env.TELEGRAM_BOT_TOKEN) {
+    if (!appConfig.platform.telegram.token) {
         log.warning('Missing TELEGRAM_BOT_TOKEN, skipping Telegram ')
         return;
     }
 
     log.info('Initializing Telegram Bot')
     var controller = BotkitTelegram({
-        token: process.env.TELEGRAM_BOT_TOKEN,
+        token: appConfig.platform.telegram.token,
         debug: debug,
         logger: log,
         retry: 10,
